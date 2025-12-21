@@ -2,7 +2,7 @@ import { treaty } from "@elysiajs/eden";
 import type { App } from "../app/api/[[...slugs]]/route";
 import { useAuthStore } from "@/stores/useAuthStore";
 
-export const client = treaty<App>("localhost:3000", {
+export const client = treaty<App>("otterchatting.vercel.app", {
   headers: {
     "Content-Type": "application/json",
   },
