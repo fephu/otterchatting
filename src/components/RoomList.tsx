@@ -52,7 +52,7 @@ const RoomList = () => {
 
   return (
     <div className="mt-4">
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {rooms.map((room) => (
           <RoomItem
             key={room.roomId}

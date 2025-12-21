@@ -88,7 +88,7 @@ const Page = () => {
           </div>
         </div>
 
-        <div className="flex flex-col flex-[0_0_16%] py-4 px-4 gap-4">
+        <div className="hidden md:flex flex-col flex-[0_0_16%] py-4 px-4 gap-4">
           {room?.meta.connected.map((member) => (
             <div key={member} className="text-sm text-zinc-400">
               {member}

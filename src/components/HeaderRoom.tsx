@@ -19,15 +19,15 @@ const HeaderRoom = ({ roomId }: HeaderRoomProps) => {
 
   return (
     <header className="border-b border-zinc-800 p-4 flex items-center justify-between bg-primary">
-      <div className="flex gap-2 items-center">
+      <div className="flex flex-col items-start gap-2 md:items-center">
         <button
           onClick={() => router.back()}
           className="hover:bg-zinc-900 cursor-pointer rounded-sm"
         >
           <ChevronLeft className="text-zinc-500 size-6" />
         </button>
-        <span className="text-sm text-zinc-500">Room ID:</span>
-        <div className="flex items-center gap-2">
+        <span className="hidden md:block text-sm text-zinc-500">Room ID:</span>
+        <div className="flex flex-col items-start md:flex-row md:items-center gap-2">
           <span className="font-bold text-green-500">{roomId}</span>
           <CopyButton copyStatus={copyStatus} setCopyStatus={setCopyStatus} />
         </div>

@@ -16,7 +16,7 @@ const Page = () => {
 
 function Lobby() {
   return (
-    <main className="flex min-h-screen">
+    <main className="flex min-h-screen px-4">
       <div className="w-full flex flex-col items-center justify-center space-y-8">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2">

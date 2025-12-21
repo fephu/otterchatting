@@ -7,11 +7,11 @@ import RoomList from "@/components/RoomList";
 
 const Page = () => {
   return (
-    <main className="min-h-screen max-w-4xl mx-auto">
+    <main className="min-h-screen max-w-4xl mx-auto px-4">
       <Navbar />
 
       <div className="space-y-8">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
           <h1 className="text-lg tracking-tight text-zinc-400">Join a room</h1>
 
           <Joining />
