@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${beVietnamPro.variable} antialiased`}>
+      <body className={`${beVietnamPro.variable} antialiased dark`}>
         <Providers>{children}</Providers>
         <Toaster richColors position="top-center" />
       </body>

@@ -53,8 +53,8 @@ const Page = () => {
       setToken(data.accessToken ?? null);
       setUser(data.user ?? null);
 
-      reset();
       router.push("/home");
+      reset();
     },
     onError: (error: any) => {
       toast.error(error.message || "Failed to create user");

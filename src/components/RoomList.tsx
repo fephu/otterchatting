@@ -4,7 +4,7 @@ import { client, getAuthHeaders } from "@/lib/client";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useQuery } from "@tanstack/react-query";
 import RoomItem from "./RoomItem";
-import Skeleton from "react-loading-skeleton";
+import { Skeleton } from "./ui/skeleton";
 
 const RoomList = () => {
   const token = useAuthStore((s) => s.token);
@@ -24,8 +24,10 @@ const RoomList = () => {
 
   if (isLoading) {
     return (
-      <div className="mt-4">
-        <Skeleton className="h-40 w-80 bg-zinc-200" count={1} />
+      <div className="mt-4 flex gap-6">
+        <Skeleton className="h-40 w-80" />
+        <Skeleton className="h-40 w-80" />
+        <Skeleton className="h-40 w-80" />
       </div>
     );
   }

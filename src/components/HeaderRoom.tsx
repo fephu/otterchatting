@@ -18,8 +18,8 @@ const HeaderRoom = ({ roomId }: HeaderRoomProps) => {
   const { timeRemaining } = useTtl({ roomId });
 
   return (
-    <header className="border-b border-zinc-800 p-4 flex items-center justify-between bg-primary">
-      <div className="flex flex-col items-start gap-2 md:items-center">
+    <header className="border-b border-zinc-900 p-4 flex items-center justify-between">
+      <div className="flex flex-col items-start gap-2 md:items-center md:flex-row">
         <button
           onClick={() => router.back()}
           className="hover:bg-zinc-900 cursor-pointer rounded-sm"

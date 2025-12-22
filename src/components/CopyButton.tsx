@@ -8,7 +8,9 @@ interface CopyButtonProps {
 const CopyButton = ({ copyStatus, setCopyStatus }: CopyButtonProps) => {
   const copyLink = () => {
     const url = window.location.href;
-    navigator.clipboard.writeText(url);
+    const id = url.substring(url.lastIndexOf("/") + 1);
+
+    navigator.clipboard.writeText(id);
     setCopyStatus("COPIED!");
     setTimeout(() => setCopyStatus("COPY"), 2000);
   };

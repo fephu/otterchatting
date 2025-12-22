@@ -66,9 +66,7 @@ const Page = () => {
     <main className="flex flex-col h-screen max-h-screen overflow-hidden">
       <HeaderRoom roomId={roomId} />
       <div className="flex flex-1">
-        {/* Left: messages */}
-        {/* flex-[0_0_84%] */}
-        <div className="flex flex-col w-full border-r border-zinc-800">
+        <div className="flex flex-col w-full border-r border-zinc-900">
           <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin">
             {messages?.messages?.length === 0 && (
               <div className="flex py-2 gap-2">
