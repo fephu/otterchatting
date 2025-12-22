@@ -6,12 +6,14 @@ import DestroyButton from "./DestroyButton";
 import { formantTimeRemaining, useTtl } from "@/hooks/use-ttl";
 import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
+import { GrLogout } from "react-icons/gr";
 
 interface HeaderRoomProps {
   roomId: string;
+  isOwner: boolean;
 }
 
-const HeaderRoom = ({ roomId }: HeaderRoomProps) => {
+const HeaderRoom = ({ roomId, isOwner }: HeaderRoomProps) => {
   const router = useRouter();
 
   const [copyStatus, setCopyStatus] = useState("COPY");
@@ -21,8 +23,8 @@ const HeaderRoom = ({ roomId }: HeaderRoomProps) => {
     <header className="border-b border-zinc-900 p-4 flex items-center justify-between">
       <div className="flex flex-col items-start gap-2 md:items-center md:flex-row">
         <button
-          onClick={() => router.back()}
-          className="hover:bg-zinc-900 cursor-pointer rounded-sm"
+          onClick={() => router.push("/home")}
+          className="hover:bg-zinc-900 cursor-pointer"
         >
           <ChevronLeft className="text-zinc-500 size-6" />
         </button>
@@ -45,7 +47,14 @@ const HeaderRoom = ({ roomId }: HeaderRoomProps) => {
             ? formantTimeRemaining(timeRemaining)
             : "--:--"}
         </span>
-        <DestroyButton id={roomId} />
+        {isOwner ? (
+          <DestroyButton id={roomId} />
+        ) : (
+          <button className="text-xs bg-zinc-800 hover:bg-red-600 px-3 py-1.5 text-zinc-400 hover:text-white font-bold transition-all group flex items-center gap-2 disabled:opacity-50">
+            <GrLogout className="group-hover:animate-pulse size-4" />
+            <span className="hidden md:block">LEAVE</span>
+          </button>
+        )}
       </div>
     </header>
   );

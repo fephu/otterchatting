@@ -262,14 +262,15 @@ const rooms = new Elysia({ prefix: "/room" })
 
     return { rooms: validRooms };
   })
-
   .get(
     "/",
-    async ({ query }) => {
+    async ({ query, user }) => {
       const { roomId } = query;
+      const { username } = user;
 
       const meta = await redis.hgetall<{
-        connected: [];
+        owner: string;
+        connected: string[];
         createdAt: number;
       }>(`meta:${roomId}`);
 
@@ -277,7 +278,7 @@ const rooms = new Elysia({ prefix: "/room" })
         throw new Error("Room does not exist");
       }
 
-      return { meta };
+      return { meta, isOwner: meta.owner === username };
     },
     {
       query: z.object({

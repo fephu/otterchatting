@@ -54,7 +54,6 @@ const Page = () => {
       setUser(data.user ?? null);
 
       router.push("/home");
-      reset();
     },
     onError: (error: any) => {
       toast.error(error.message || "Failed to create user");
@@ -63,6 +62,7 @@ const Page = () => {
 
   const onSubmit = async ({ username, password }: TLoginUserValidator) => {
     loginUser({ username, password });
+    reset();
   };
 
   return (

@@ -20,10 +20,10 @@ const DestroyButton = ({ id }: DestroyButtonProps) => {
   return (
     <button
       onClick={() => destroyRoom()}
-      className="text-xs bg-zinc-800 hover:bg-red-600 px-3 py-1.5 rounded text-zinc-400 hover:text-white font-bold transition-all group flex items-center gap-2 disabled:opacity-50"
+      className="text-xs bg-zinc-800 hover:bg-red-600 px-3 py-1.5 text-zinc-400 hover:text-white font-bold transition-all group flex items-center gap-2 disabled:opacity-50"
     >
       <span className="group-hover:animate-pulse">💣</span>
-      <span className="hidden md:block">DESTROY NOW</span>
+      <span className="hidden md:block">DESTROY</span>
     </button>
   );
 };

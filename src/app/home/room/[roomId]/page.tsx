@@ -9,14 +9,16 @@ import { BiSolidGhost } from "react-icons/bi";
 import HeaderRoom from "@/components/HeaderRoom";
 import MessageInput from "@/components/MessageInput";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { MdPersonRemove } from "react-icons/md";
 
 const Page = () => {
-  const { token } = useAuthStore();
+  const { token, user } = useAuthStore();
+
   const router = useRouter();
   const params = useParams();
   const roomId = params.roomId as string;
 
-  const { data: room } = useQuery({
+  const { data: room, isLoading } = useQuery({
     queryKey: ["room", roomId],
     queryFn: async () => {
       const res = await client.room.get({
@@ -61,10 +63,17 @@ const Page = () => {
       }
     },
   });
+  if (isLoading) {
+    return <div className="h-screen max-h-screen"></div>;
+  }
+
+  if (!room) {
+    return <div className="h-screen max-h-screen"></div>;
+  }
 
   return (
     <main className="flex flex-col h-screen max-h-screen overflow-hidden">
-      <HeaderRoom roomId={roomId} />
+      <HeaderRoom roomId={roomId} isOwner={room?.isOwner} />
       <div className="flex flex-1">
         <div className="flex flex-col w-full border-r border-zinc-900">
           <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin">
@@ -88,8 +97,17 @@ const Page = () => {
 
         <div className="hidden md:flex flex-col flex-[0_0_16%] py-4 px-4 gap-4">
           {room?.meta.connected.map((member) => (
-            <div key={member} className="text-sm text-zinc-400">
+            <div
+              key={member}
+              className="text-sm text-zinc-400 flex items-center justify-between"
+            >
+              {member === room.meta.owner && "owner: "}
               {member}
+              {room.isOwner && member !== room.meta.owner && (
+                <button>
+                  <MdPersonRemove className="size-4.5 text-red-600" />
+                </button>
+              )}
             </div>
           ))}
         </div>

@@ -28,7 +28,7 @@ const MessageInputActions = ({ onEmojiSelect }: MessageInputActionsProps) => {
   return (
     <div className="relative flex items-center gap-3">
       <button
-        className="group cursor-pointer hover:bg-zinc-800 rounded-lg size-8 transition-colors flex items-center justify-center"
+        className="group cursor-pointer hover:bg-zinc-800 size-8 transition-colors flex items-center justify-center"
         onMouseEnter={handleMouseEnter}
         onClick={() => handleOpen("GIFs")}
       >
@@ -36,14 +36,14 @@ const MessageInputActions = ({ onEmojiSelect }: MessageInputActionsProps) => {
       </button>
 
       <button
-        className="group cursor-pointer hover:bg-zinc-800 rounded-lg size-8 transition-colors flex items-center justify-center"
+        className="group cursor-pointer hover:bg-zinc-800 size-8 transition-colors flex items-center justify-center"
         onMouseEnter={handleMouseEnter}
         onClick={() => handleOpen("Stickers")}
       >
         <RiEmojiStickerFill className="size-5.5 transition-transform group-hover:animate-wiggle" />
       </button>
       <button
-        className="group transition-all cursor-pointer size-8 hover:scale-110 hover:bg-zinc-800 rounded-lg"
+        className="group transition-all cursor-pointer size-8 hover:scale-110 hover:bg-zinc-800"
         onMouseEnter={handleMouseEnter}
         onClick={() => handleOpen("Emoji")}
       >

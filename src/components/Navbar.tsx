@@ -11,8 +11,8 @@ const Navbar = () => {
   return (
     <div className="flex items-center justify-between py-10">
       <div className="flex items-center justify-center gap-1">
-        <Image src={logoImg} alt="logo" className="w-16" />
-        <h1 className="text-xl font-semibold tracking-tighter text-green-500">
+        <Image src={logoImg} alt="logo" className="w-18" />
+        <h1 className="text-2xl font-semibold tracking-tighter text-green-500">
           otterchatting
         </h1>
       </div>

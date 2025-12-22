@@ -90,7 +90,7 @@ const MessageInput = ({ roomId }: MessageInputProps) => {
   return (
     <div className="flex flex-col gap-3">
       {imagesPreview.length > 0 && (
-        <div className="flex items-center gap-6 bg-zinc-900/90 p-4 rounded-xl overflow-x-auto">
+        <div className="flex items-center gap-6 bg-zinc-900/90 p-4 overflow-x-auto">
           {imagesPreview.map((image) => (
             <ImagePreviewer
               id={image.id}
@@ -101,7 +101,7 @@ const MessageInput = ({ roomId }: MessageInputProps) => {
           ))}
         </div>
       )}
-      <div className="flex items-start gap-2 border border-zinc-800 rounded-xl pl-4 pr-2 py-2">
+      <div className="flex items-start gap-2 border border-zinc-800 pl-4 pr-2 py-2">
         <div className="flex items-center p-1">
           <button>
             <GoPlus className="text-gray-400 size-6" />

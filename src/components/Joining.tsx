@@ -5,6 +5,7 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Input } from "./ui/input";
 
 const Joining = () => {
   const [roomId, setRoomId] = useState<string>("");
@@ -25,13 +26,13 @@ const Joining = () => {
 
   return (
     <div className="flex items-center gap-2">
-      <input
+      <Input
         onChange={(e) => setRoomId(e.target.value)}
-        className="focus:outline-none text-sm border border-zinc-900 bg-zinc-900 h-10 px-3"
-        placeholder="Paste room id"
+        placeholder="Paste the room's ID"
+        className="text-zinc-200 border border-zinc-900 bg-zinc-900 h-10 px-3 rounded-none"
       />
       <button
-        className="border border-zinc-900 bg-zinc-900 px-3 cursor-pointer text-sm h-10"
+        className="border border-zinc-900 bg-zinc-900 hover:bg-zinc-900/60 px-3 cursor-pointer text-sm h-10"
         onClick={() => joinRoom()}
         disabled={isPending}
       >

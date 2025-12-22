@@ -15,11 +15,11 @@ const RoomItem = ({ id, owner, connected }: RoomItemProps) => {
   return (
     <Link
       href={`/home/room/${id}`}
-      className="h-40 border border-zinc-900 bg-zinc-900 p-4 space-y-2 text-zinc-400"
+      className="h-40 border border-zinc-900 bg-zinc-900 py-4 pl-4 pr-2 space-y-2 text-zinc-400"
     >
-      <h2>
-        id: <span className="text-green-600">{id}</span>
-      </h2>
+      <div className="flex gap-1">
+        id: <span className="text-green-600 truncate">{id}</span>
+      </div>
       <p className="text-sm">owner: {owner}</p>
       <p className="text-sm">{connected.length} members</p>
 
