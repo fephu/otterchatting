@@ -1,6 +1,7 @@
 "use client";
 
-import { client, getAuthHeaders } from "@/lib/client";
+import { useApiCall } from "@/hooks/use-api";
+import { baseApi } from "@/lib/client";
 import { useMutation } from "@tanstack/react-query";
 
 interface DestroyButtonProps {
@@ -8,12 +9,13 @@ interface DestroyButtonProps {
 }
 
 const DestroyButton = ({ id }: DestroyButtonProps) => {
+  const { apiCall } = useApiCall();
+
   const { mutate: destroyRoom } = useMutation({
     mutationFn: async () => {
-      await client.room.delete(null, {
-        query: { roomId: id },
-        headers: getAuthHeaders(),
-      });
+      await apiCall(() =>
+        baseApi.api.room.delete(null, { query: { roomId: id } })
+      );
     },
   });
 

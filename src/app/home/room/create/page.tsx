@@ -8,7 +8,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
-import { client, getAuthHeaders } from "@/lib/client";
+import { useApiCall } from "@/hooks/use-api";
+import { baseApi } from "@/lib/client";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useMutation } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
@@ -18,17 +19,13 @@ import { toast } from "sonner";
 
 const Page = () => {
   const router = useRouter();
+  const { apiCall } = useApiCall();
   const { user } = useAuthStore();
   const [duration, setDuration] = useState<string>("");
 
   const { mutate: createRoom, isPending } = useMutation({
     mutationFn: async ({ ttl }: { ttl: number }) => {
-      const res = await client.room.create.post(
-        { ttl },
-        {
-          headers: getAuthHeaders(),
-        }
-      );
+      const res = await apiCall(() => baseApi.api.room.create.post({ ttl }));
 
       if (res.status === 200) {
         router.push(`/home/room/${res.data?.roomId}`);
@@ -50,8 +47,8 @@ const Page = () => {
   };
 
   return (
-    <main className="min-h-screen max-w-md mx-auto px-4 py-20 space-y-8">
-      <div className="flex items-center gap-2">
+    <main className="min-h-screen max-w-xl mx-auto px-4 py-20 space-y-8">
+      <div className="flex items-center gap-4">
         <button
           className="hover:bg-zinc-900 size-8 p-1 cursor-pointer"
           onClick={() => router.back()}
@@ -72,19 +69,13 @@ const Page = () => {
           </div>
 
           <Select onValueChange={(value) => setDuration(value)}>
-            <SelectTrigger className="w-full rounded-none border-zinc-800 text-zinc-300">
+            <SelectTrigger className="w-full border-zinc-800 text-zinc-300">
               <SelectValue placeholder="Select your room time" />
             </SelectTrigger>
-            <SelectContent className="rounded-none border-zinc-800">
-              <SelectItem value="600" className="rounded-none text-zinc-300">
-                10 minutes
-              </SelectItem>
-              <SelectItem value="1800" className="rounded-none text-zinc-300">
-                30 minutes
-              </SelectItem>
-              <SelectItem value="3600" className="rounded-none text-zinc-300">
-                60 minutes
-              </SelectItem>
+            <SelectContent className="border-zinc-800 text-zinc-300">
+              <SelectItem value="600">10 minutes</SelectItem>
+              <SelectItem value="1800">30 minutes</SelectItem>
+              <SelectItem value="3600">60 minutes</SelectItem>
             </SelectContent>
           </Select>
 

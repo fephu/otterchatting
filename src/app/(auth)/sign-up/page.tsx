@@ -13,8 +13,8 @@ import {
 } from "@/lib/validators/create-user-validator";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
-import { client } from "@/lib/client";
 import { toast } from "sonner";
+import { baseApi } from "@/lib/client";
 
 const Page = () => {
   const router = useRouter();
@@ -37,7 +37,10 @@ const Page = () => {
       username: string;
       password: string;
     }) => {
-      const response = await client.auth.create.post({ username, password });
+      const response = await baseApi.api.auth.create.post({
+        username,
+        password,
+      });
 
       if (response.error) {
         throw new Error(response.error.value.message);

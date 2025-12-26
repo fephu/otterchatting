@@ -1,6 +1,5 @@
 "use client";
 
-import { client, getAuthHeaders } from "@/lib/client";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { GoPlus } from "react-icons/go";
@@ -8,6 +7,8 @@ import ImagePreviewer from "./ImagePreviewer";
 import { PreviewImage } from "@/types";
 import MessageInputActions from "./MessageInputActions";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { useApiCall } from "@/hooks/use-api";
+import { baseApi } from "@/lib/client";
 
 interface MessageInputProps {
   roomId: string;
@@ -15,6 +16,8 @@ interface MessageInputProps {
 
 const MessageInput = ({ roomId }: MessageInputProps) => {
   const { user } = useAuthStore();
+  const { apiCall } = useApiCall();
+
   const [input, setInput] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [imagesPreview, setImagesPreview] = useState<PreviewImage[]>([]);
@@ -27,16 +30,13 @@ const MessageInput = ({ roomId }: MessageInputProps) => {
       text: string;
       images?: string[];
     }) => {
-      await client.messages.post(
-        {
+      await apiCall(() =>
+        baseApi.api.messages.post({
           sender: user?.username ?? "anonymous",
           text,
           images: images && undefined,
           roomId,
-        },
-        {
-          headers: getAuthHeaders(),
-        }
+        })
       );
 
       setInput("");

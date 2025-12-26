@@ -1,21 +1,21 @@
 "use client";
 
-import { client, getAuthHeaders } from "@/lib/client";
+import { baseApi } from "@/lib/client";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useQuery } from "@tanstack/react-query";
 import RoomItem from "./RoomItem";
 import { Skeleton } from "./ui/skeleton";
+import { useApiCall } from "@/hooks/use-api";
 
 const RoomList = () => {
   const { token } = useAuthStore();
+  const { apiCall } = useApiCall();
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["rooms"],
     enabled: Boolean(token),
     queryFn: async () => {
-      const res = await client.room["my-rooms"].get({
-        headers: getAuthHeaders(),
-      });
+      const res = await apiCall(() => baseApi.api.room["my-rooms"].get());
       return res.data;
     },
   });
@@ -25,9 +25,9 @@ const RoomList = () => {
   if (isLoading) {
     return (
       <div className="flex gap-6 py-4">
-        <Skeleton className="h-40 w-80 rounded-none" />
-        <Skeleton className="h-40 w-80 rounded-none" />
-        <Skeleton className="h-40 w-80 rounded-none" />
+        <Skeleton className="h-40 w-80" />
+        <Skeleton className="h-40 w-80" />
+        <Skeleton className="h-40 w-80" />
       </div>
     );
   }

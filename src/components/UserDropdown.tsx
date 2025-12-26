@@ -30,17 +30,17 @@ const UserDropdown = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="rounded-none p-0 border-zinc-900"
+        className="p-0 border-zinc-900"
         sideOffset={10}
       >
         <DropdownMenuItem
-          className="rounded-none cursor-pointer text-zinc-400"
-          onClick={logoutUser}
+          className="cursor-pointer text-zinc-400"
+          onClick={() => router.push("/home/profile")}
         >
           Profile
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="rounded-none cursor-pointer text-zinc-400"
+          className="cursor-pointer text-zinc-400"
           onClick={logoutUser}
         >
           Logout

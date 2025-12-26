@@ -15,8 +15,8 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { client } from "@/lib/client";
 import { toast } from "sonner";
+import { baseApi } from "@/lib/client";
 
 const Page = () => {
   const { setToken, setUser } = useAuthStore();
@@ -41,7 +41,10 @@ const Page = () => {
       username: string;
       password: string;
     }) => {
-      const response = await client.auth.login.post({ username, password });
+      const response = await baseApi.api.auth.login.post({
+        username,
+        password,
+      });
 
       if (response.error) {
         throw new Error(response.error.value.message);

@@ -2,22 +2,22 @@ import { treaty } from "@elysiajs/eden";
 import type { App } from "../app/api/[[...slugs]]/route";
 import { useAuthStore } from "@/stores/useAuthStore";
 
-export const client = treaty<App>(
-  process.env.NODE_ENV === "development"
-    ? "localhost:3000"
-    : "otterchatting.vercel.app",
-  {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }
-).api;
-
-export const getAuthHeaders = () => {
-  const storeState = useAuthStore.getState().token;
-
-  return {
-    Authorization: storeState ? `Bearer ${storeState}` : "",
-    "Content-Type": "application/json",
+export const createApiClient = () => {
+  const getToken = () => {
+    if (typeof window !== "undefined") {
+      return useAuthStore.getState().token;
+    }
+    return null;
   };
+
+  return treaty<App>("http://localhost:3000", {
+    headers: {
+      get authorization() {
+        const token = getToken();
+        return token ? `Bearer ${token}` : "";
+      },
+    },
+  });
 };
+
+export const baseApi = createApiClient();

@@ -1,7 +1,6 @@
 "use client";
 
 import MessageDisplay from "@/components/MessageDisplay";
-import { client } from "@/lib/client";
 import { useRealtime } from "@/lib/realtime-client";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
@@ -10,6 +9,8 @@ import HeaderRoom from "@/components/HeaderRoom";
 import MessageInput from "@/components/MessageInput";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { MdPersonRemove } from "react-icons/md";
+import { useApiCall } from "@/hooks/use-api";
+import { baseApi } from "@/lib/client";
 
 const Page = () => {
   const { token, user } = useAuthStore();
@@ -17,17 +18,14 @@ const Page = () => {
   const router = useRouter();
   const params = useParams();
   const roomId = params.roomId as string;
+  const { apiCall } = useApiCall();
 
   const { data: room, isLoading } = useQuery({
     queryKey: ["room", roomId],
     queryFn: async () => {
-      const res = await client.room.get({
-        query: { roomId },
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await apiCall(() =>
+        baseApi.api.room.get({ query: { roomId } })
+      );
 
       return res.data;
     },
@@ -37,13 +35,9 @@ const Page = () => {
   const { data: messages, refetch } = useQuery({
     queryKey: ["messages", roomId],
     queryFn: async () => {
-      const res = await client.messages.get({
-        query: { roomId },
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await apiCall(() =>
+        baseApi.api.messages.get({ query: { roomId } })
+      );
 
       return res.data;
     },

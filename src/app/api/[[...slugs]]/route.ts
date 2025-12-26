@@ -117,25 +117,86 @@ const auth = new Elysia({ prefix: "/auth" })
       body: LoginUserValidator,
     }
   )
+  .post("/renew", async ({ cookie: { x_auth_token }, set }) => {
+    const refreshToken = x_auth_token.value;
+
+    if (!refreshToken) {
+      set.status = 401;
+      return { error: "No refresh token provided" };
+    }
+
+    try {
+      const payload = jwt.verify(
+        refreshToken as string,
+        process.env.JWT_SECRET!
+      ) as {
+        username: string;
+      };
+
+      const sessionId = await redis.get(`token:${refreshToken}`);
+      if (!sessionId) {
+        set.status = 401;
+        return { error: "Invalid or expired refresh token" };
+      }
+
+      const session = await redis.hgetall<{
+        username: string;
+        token: string;
+        isBlock: boolean;
+        expiresAt: number;
+        createdAt: number;
+      }>(`session:${sessionId}`);
+
+      if (!session) {
+        set.status = 401;
+        return { error: "Session not found" };
+      }
+
+      if (session.isBlock) {
+        set.status = 403;
+        return { error: "Session is blocked" };
+      }
+
+      if (Date.now() > session.expiresAt) {
+        set.status = 401;
+        return { error: "Session expired" };
+      }
+
+      const newAccessToken = jwt.sign(
+        {
+          username: payload.username,
+        },
+        process.env.JWT_SECRET!,
+        {
+          expiresIn: "15m",
+          algorithm: "HS256",
+        }
+      );
+
+      await redis.set(`token:${newAccessToken}`, sessionId, {
+        ex: 15 * 60,
+      });
+
+      return { accessToken: newAccessToken };
+    } catch (err) {
+      set.status = 401;
+      return { error: "Invalid or expired refresh token" };
+    }
+  })
   .use(authMiddleware)
   .get("/me", async ({ user }) => {
     return { user };
   })
   .post(
     "/logout",
-    async ({
-      sessionId,
-      accessToken,
-      refreshToken,
-      cookie: { x_auth_token },
-    }) => {
+    async ({ sessionId, accessToken, cookie: { x_auth_token } }) => {
       const pipeline = redis.pipeline();
 
       pipeline.del(`session:${sessionId}`);
 
       pipeline.del(`token:${accessToken}`);
 
-      pipeline.del(`token:${refreshToken}`);
+      pipeline.del(`token:${x_auth_token.value}`);
 
       await pipeline.exec();
 

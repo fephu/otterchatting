@@ -1,8 +1,9 @@
-import { client, getAuthHeaders } from "@/lib/client";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useApiCall } from "./use-api";
+import { baseApi } from "@/lib/client";
 
 export function formantTimeRemaining(seconds: number) {
   const mins = Math.floor(seconds / 60);
@@ -20,14 +21,14 @@ export const useTtl = ({ roomId }: Props) => {
 
   const router = useRouter();
   const { token } = useAuthStore();
+  const { apiCall } = useApiCall();
 
   const { data: ttlData } = useQuery({
     queryKey: ["ttl", roomId],
     queryFn: async () => {
-      const res = await client.room.ttl.get({
-        query: { roomId },
-        headers: getAuthHeaders(),
-      });
+      const res = await apiCall(() =>
+        baseApi.api.room.ttl.get({ query: { roomId } })
+      );
 
       return res.data;
     },

@@ -1,4 +1,4 @@
-import { client, getAuthHeaders } from "@/lib/client";
+import { baseApi } from "@/lib/client";
 import { User } from "@/types/auth";
 import { toast } from "sonner";
 import { create } from "zustand";
@@ -37,7 +37,7 @@ export const useAuthStore = create<AuthState>()(
       setLoading: (loading) => set({ loading }),
 
       logout: async () => {
-        await client.auth.logout.post(null, { headers: getAuthHeaders() });
+        await baseApi.api.auth.logout.post(null);
         set({
           token: null,
           user: null,
@@ -49,9 +49,7 @@ export const useAuthStore = create<AuthState>()(
       refreshUser: async () => {
         set({ loading: true });
         try {
-          const response = await client.auth.me.get({
-            headers: getAuthHeaders(),
-          });
+          const response = await baseApi.api.auth.me.get();
 
           set({
             user: response.data?.user,
