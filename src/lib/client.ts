@@ -10,14 +10,19 @@ export const createApiClient = () => {
     return null;
   };
 
-  return treaty<App>("http://localhost:3000", {
-    headers: {
-      get authorization() {
-        const token = getToken();
-        return token ? `Bearer ${token}` : "";
+  return treaty<App>(
+    process.env.NODE_ENV === "production"
+      ? "otterchatting.vercel.app"
+      : "localhost:3000",
+    {
+      headers: {
+        get authorization() {
+          const token = getToken();
+          return token ? `Bearer ${token}` : "";
+        },
       },
-    },
-  });
+    }
+  );
 };
 
 export const baseApi = createApiClient();
